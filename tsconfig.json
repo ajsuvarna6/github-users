@@ -19,6 +19,10 @@
     "noEmit": true,
     "jsx": "react"
   },
+  "formatCodeOptions": {
+    "tabSize": 2,
+    "indentSize": 4
+  },
   "include": [
     "src"
   ]
