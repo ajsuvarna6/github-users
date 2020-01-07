@@ -94,3 +94,5 @@ export default function UserDetail(
         </DetailContainer>
     );
 }
+
+// get the stars - https://api.github.com/users/pkdevbox/starred

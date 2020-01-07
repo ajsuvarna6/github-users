@@ -1,6 +1,6 @@
 function getGitHubUsers(searchInput = '', page = 1, pageLimit = 10) {
     return APIService(
-        `https://api.github.com/search/users?q=location:${searchInput}&per_page=${pageLimit}&page=${page}`
+        `https://api.github.com/search/users?q=location:${searchInput}&per_page=${pageLimit}&page=${page}&sort=repositories&order=desc`
     );
 
 }
