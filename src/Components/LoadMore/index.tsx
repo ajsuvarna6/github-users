@@ -29,6 +29,9 @@ export function LoadMore({
                 if (response && response.items) {
                     fetchGitHubUsers(response.items, newPage);
                 } else {
+                    if (response.error) {
+                        alert(response.message);
+                    }
                     fetchGitHubUsers([], currentPage);
                 }
             });

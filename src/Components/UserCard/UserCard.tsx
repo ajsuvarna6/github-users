@@ -32,7 +32,7 @@ function UserCardComponent({ login, avatar_url, html_url, url }: UserCardProps) 
     const [userDetail, setUserDetail] = useState(null);
     const [isUserDetailLoaded, setUserDetailLoaded] = useState(false);
     useEffect(() => {
-        if (url) {
+        if (!userDetail && url) {
             getGitHubUserDetail(url)
                 .then((response: any) => {
                     if (response) {
@@ -41,7 +41,7 @@ function UserCardComponent({ login, avatar_url, html_url, url }: UserCardProps) 
                     setUserDetailLoaded(true)
                 });
         }
-    }, [url]);
+    }, [userDetail, url]);
     return (
         <UserCardContainer>
             <AvatarContainer>

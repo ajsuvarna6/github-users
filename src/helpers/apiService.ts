@@ -18,8 +18,16 @@ function APIService(url: string, method = 'GET', body: any = undefined, headers:
             body
         }
     )
-        .then((response) => response.json(), (error) => console.log(error))
-        .catch(() => console.log('something went wrong!!'));
+        .then((response) => { 
+            if (response.status === 403) {
+                return {
+                    error: true,
+                    message: "Limit exceeded, please try later!!!"
+                };
+            } 
+            return response.json();
+        })
+        .catch((error) => console.log('something went wrong!!', error));
 }
 
 export { getGitHubUsers, getGitHubUserDetail };

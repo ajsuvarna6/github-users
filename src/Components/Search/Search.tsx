@@ -31,6 +31,12 @@ function SearchComponent({
         updateSearchInput(event.target.value);
     };
 
+    const onKeyDownHandler = (event: any) => {
+        if (event.which === 13) {
+            onClickHandler();
+        }
+    };
+
     const onClickHandler = () => {
         if (searchInput) {
             fetchUsersInProgress();
@@ -39,6 +45,9 @@ function SearchComponent({
                     if (response && response.items) {
                         fetchGitHubUsers(response.items, 1);
                     } else {
+                        if (response.error) {
+                            alert(response.message);
+                        }
                         fetchGitHubUsers([], 1);
                     }
                 });
@@ -52,6 +61,7 @@ function SearchComponent({
                 value={searchInput}
                 disabled={apiInprogress}
                 onChange={onChange}
+                onKeyDown={onKeyDownHandler}
                 placeholder="Enter a City..."
             />
             <SearchButton
