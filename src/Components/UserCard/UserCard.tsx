@@ -1,8 +1,9 @@
-import React, { ReactNode } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Div, Image } from '../Common';
 import { User } from '../../reducers';
 import styled from 'styled-components';
 import UserDetail from './UserDetail';
+import { getGitHubUserDetail } from '../../helpers/apiService';
 
 const UserCardContainer = styled(Div)`
     border-bottom: 1px solid rgba(208, 208, 208, 0.5);
@@ -25,18 +26,32 @@ const AvatarImage = styled(Image)`
 `;
 
 interface UserCardProps extends User {
-    children?: ReactNode
 }
 
-function UserCardComponent({ login, avatar_url, html_url, url }: User) {
+function UserCardComponent({ login, avatar_url, html_url, url }: UserCardProps) {
+    const [userDetail, setUserDetail] = useState(null);
+    const [isUserDetailLoaded, setUserDetailLoaded] = useState(false);
+    useEffect(() => {
+        if (url) {
+            getGitHubUserDetail(url)
+                .then((response: any) => {
+                    if (response) {
+                        setUserDetail(response);
+                    }
+                    setUserDetailLoaded(true)
+                });
+        }
+    }, [url]);
     return (
         <UserCardContainer>
             <AvatarContainer>
                 <AvatarImage src={avatar_url} />
             </AvatarContainer>
-            <UserDetail 
+            <UserDetail
                 login={login}
                 html_url={html_url}
+                isUserDetailLoaded={isUserDetailLoaded}
+                userDetail={userDetail}
             />
         </UserCardContainer>
     );

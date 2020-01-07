@@ -9,6 +9,10 @@ const ListContainer = styled(Div)`
     flex-direction: column;
 `;
 
+const Loader = styled(Div)`
+    margin: 10px auto;
+`;
+
 function UserListComponent({ users, apiInprogress }: initialStateType) {
     return (
         <ListContainer>
@@ -17,7 +21,7 @@ function UserListComponent({ users, apiInprogress }: initialStateType) {
                     <UserCard key={user.id} {...user} />
                 ))
             }
-            { apiInprogress && <Div>Loading...</Div> }
+            { apiInprogress && <Loader>Loading...</Loader> }
         </ListContainer>
     );
 }

@@ -24,7 +24,6 @@ const initialState: initialStateType = {
 
 
 function GitHubUsersReducer(state: initialStateType = initialState, action: any) {
-    console.log(action);
     switch (action.type) {
         case 'UPDATE_SEARCH':
             return {

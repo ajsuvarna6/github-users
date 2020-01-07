@@ -7,6 +7,7 @@ const DetailContainer = styled(Div)`
     flex: 20;
     padding-top: 15px;
     flex-direction: column;
+    position: relative;
 `;
 
 const UserDetailHeader = styled(Div)`
@@ -27,19 +28,37 @@ const Location = styled(Span)`
     margin-right: 10px;
 `;
 
-export default function UserDetail({html_url, login}: User) {
+const UserDetailFetching = styled(Div)`
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+`;
+
+interface UserDetailProps extends User {
+    isUserDetailLoaded: boolean,
+    userDetail: any
+}
+
+export default function UserDetail(
+    { html_url, login, userDetail, isUserDetailLoaded }: UserDetailProps
+) {
     return (
         <DetailContainer>
+            {isUserDetailLoaded && <UserDetailFetching>Fetching...</UserDetailFetching>}
             <UserDetailHeader>
                 <UserIdLink href={html_url} target='_blank'>{login}</UserIdLink>
-                <Span style={{ fontSize: '18px' }}>full name</Span>
+                <Span style={{ fontSize: '18px' }}>{userDetail ? userDetail.name : ''}</Span>
             </UserDetailHeader>
             <UserBio>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, obcaecati! A deleniti sapiente
-                </UserBio>
+                {userDetail ? userDetail.bio : ''}
+            </UserBio>
             <Div>
-                <Location>Location</Location>
-                <Span>email</Span>
+                {(userDetail && userDetail.location) && <Location>{userDetail.location}</Location>}
+                {(userDetail && userDetail.email) && <Span>{userDetail.email}</Span>}
             </Div>
         </DetailContainer>
     );
