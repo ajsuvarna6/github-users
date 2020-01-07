@@ -1,15 +1,25 @@
+export interface User {
+    login?: string,
+    id?: string,
+    avatar_url?: string,
+    url?: string,
+    html_url?: string
+}
+
 export interface initialStateType {
-    users: Array<any>,
+    users: Array<User>,
     searchInput: string,
     apiInprogress: boolean,
-    currentPage: number
+    currentPage: number,
+    loadMore: boolean,
 }
 
 const initialState: initialStateType = {
     users: [],
     searchInput: '',
     apiInprogress: false,
-    currentPage: 1
+    currentPage: 1,
+    loadMore: false
 };
 
 
@@ -29,12 +39,13 @@ function GitHubUsersReducer(state: initialStateType = initialState, action: any)
             };
 
         case 'FETCH_USERS':
-            const { payload } = action;
+            const { payload: { currentPage, users: newUsers, loadMore } } = action;
             return {
                 ...state,
                 apiInprogress: false,
-                currentPage: payload.currentPage,
-                users: [...state.users, ...payload.users]
+                currentPage,
+                users: [...state.users, ...newUsers],
+                loadMore
             };
         default:
             return state

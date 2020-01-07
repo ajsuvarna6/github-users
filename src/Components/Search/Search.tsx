@@ -4,9 +4,12 @@ import reduxConnect from '../../store/reduxConnect';
 import { initialStateType } from '../../reducers';
 import styled from 'styled-components';
 import { getGitHubUsers } from '../../helpers/apiService';
+import { fetchGitHubUsers, fetchUsersInProgress, updateSearchInput } from '../../actions';
 
 interface SearchProps extends initialStateType {
-    dispatch: Function
+    fetchUsersInProgress: Function,
+    fetchGitHubUsers: Function,
+    updateSearchInput: Function
 }
 
 const SearchInput = styled(Input)`
@@ -21,32 +24,22 @@ const SearchButton = styled(Button)`
     flex: 3;
 `;
 
-
-function SearchComponent({ searchInput, currentPage, apiInprogress, dispatch }: SearchProps) {
+function SearchComponent({
+    searchInput, fetchUsersInProgress, fetchGitHubUsers, updateSearchInput, apiInprogress
+}: SearchProps) {
     const onChange = (event: any) => {
-        dispatch({ type: 'UPDATE_SEARCH', payload: event.target.value });
+        updateSearchInput(event.target.value);
     };
 
     const onClickHandler = () => {
         if (searchInput) {
-            dispatch({ type: 'FETCH_USERS_INPROGRESS' });
+            fetchUsersInProgress();
             getGitHubUsers(searchInput)
                 .then((response: any) => {
                     if (response && response.items) {
-                        dispatch({
-                            type: 'FETCH_USERS',
-                            payload: {
-                                users: response.items,
-                                loadMore: response.items.length === 10,
-                                currentPage: 1
-                            }
-                        });
+                        fetchGitHubUsers(response.items, 1);
                     } else {
-                        dispatch({ type: 'FETCH_USERS', payload: {
-                            users: [],
-                            loadMore: false, 
-                            currentPage: 1
-                        } });
+                        fetchGitHubUsers([], 1);
                     }
                 })
         }
@@ -55,6 +48,7 @@ function SearchComponent({ searchInput, currentPage, apiInprogress, dispatch }: 
     return (
         <SearchContainer>
             <SearchInput
+                type='text'
                 value={searchInput}
                 disabled={apiInprogress}
                 onChange={onChange}
@@ -75,4 +69,6 @@ function mapStateToProps({ searchInput, currentPage, apiInprogress }: initialSta
     return { searchInput, apiInprogress, currentPage };
 }
 
-export default reduxConnect(SearchComponent, null, mapStateToProps);
+export default reduxConnect(SearchComponent, {
+    fetchGitHubUsers, fetchUsersInProgress, updateSearchInput
+}, mapStateToProps);
