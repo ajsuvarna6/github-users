@@ -41,7 +41,7 @@ function SearchComponent({
                     } else {
                         fetchGitHubUsers([], 1);
                     }
-                })
+                });
         }
     };
 

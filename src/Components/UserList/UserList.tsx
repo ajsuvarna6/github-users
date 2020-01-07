@@ -3,21 +3,27 @@ import { Div } from '../Common';
 import reduxConnect from '../../store/reduxConnect';
 import { initialStateType } from '../../reducers';
 import UserCard from '../UserCard';
+import styled from 'styled-components';
 
-function UserListComponent({ users }: initialStateType) {
+const ListContainer = styled(Div)`
+    flex-direction: column;
+`;
+
+function UserListComponent({ users, apiInprogress }: initialStateType) {
     return (
-        <Div>
+        <ListContainer>
             {
                 users.map((user) => (
                     <UserCard key={user.id} {...user} />
                 ))
             }
-        </Div>
+            { apiInprogress && <Div>Loading...</Div> }
+        </ListContainer>
     );
 }
 
-function mapStateToProps({ users, currentPage, loadMore }: initialStateType) {
-    return { users, currentPage, loadMore };
+function mapStateToProps({ users, apiInprogress }: initialStateType) {
+    return { users, apiInprogress };
 }
 
 export default reduxConnect(UserListComponent, null, mapStateToProps);

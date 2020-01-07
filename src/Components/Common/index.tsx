@@ -7,7 +7,6 @@ const Div = styled.div`
 
 const Span = styled.span`
     display: flex;
-    flex: 1;
 `;
 
 const Input = styled.input`
@@ -24,6 +23,19 @@ const Button = styled.button`
     background-color: #fff;
     font-size: 12px;
     color: #000;
+    cursor: pointer;
+    &:hover, &:active {
+        background-color: #f5f5f5;
+    }
 `;
 
-export { Div, Span, Input, Button };
+
+const Image = styled.img`
+    display: flex;
+`;
+
+const Anchor = styled.a`
+    text-decoration: none;
+`;
+
+export { Div, Span, Input, Button, Image, Anchor };

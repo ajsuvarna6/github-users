@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 const Container = styled(Div)`
     margin: 0;
+    flex-direction: column;
+    width: 100%;
 `;
 
 function UsersComponent() {

@@ -44,7 +44,7 @@ function GitHubUsersReducer(state: initialStateType = initialState, action: any)
                 ...state,
                 apiInprogress: false,
                 currentPage,
-                users: [...state.users, ...newUsers],
+                users: currentPage === 1 ? newUsers : [...state.users, ...newUsers],
                 loadMore
             };
         default:
